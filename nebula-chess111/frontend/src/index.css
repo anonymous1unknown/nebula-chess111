@@ -1,0 +1,176 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: #04020d;
+    color: #e8e4ff;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background: rgba(124, 99, 232, 0.4);
+    color: #fff;
+  }
+
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: rgba(255,255,255,0.03); }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(124, 99, 232, 0.4);
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(124, 99, 232, 0.7); }
+}
+
+@layer components {
+  /* Starfield background */
+  .starfield {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background:
+      radial-gradient(ellipse at 20% 50%, rgba(61, 45, 138, 0.15) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 20%, rgba(34, 211, 238, 0.06) 0%, transparent 40%),
+      radial-gradient(ellipse at 60% 80%, rgba(232, 67, 147, 0.05) 0%, transparent 40%);
+  }
+
+  /* Glass card */
+  .glass {
+    background: rgba(28, 21, 69, 0.6);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(124, 99, 232, 0.15);
+  }
+
+  .glass-strong {
+    background: rgba(18, 13, 46, 0.85);
+    backdrop-filter: blur(30px) saturate(200%);
+    border: 1px solid rgba(124, 99, 232, 0.25);
+  }
+
+  /* Buttons */
+  .btn-primary {
+    @apply inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm
+           bg-nebula-500 hover:bg-nebula-400 text-white
+           transition-all duration-200 active:scale-95
+           shadow-[0_4px_20px_rgba(61,45,138,0.5)]
+           hover:shadow-[0_4px_30px_rgba(124,99,232,0.6)];
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm
+           bg-white/5 hover:bg-white/10 text-nebula-100
+           border border-nebula-500/30 hover:border-nebula-400/50
+           transition-all duration-200 active:scale-95;
+  }
+
+  .btn-danger {
+    @apply inline-flex items-center gap-2 px-4 py-2 rounded-lg font-semibold text-sm
+           bg-cosmic-red/10 hover:bg-cosmic-red/20 text-cosmic-red
+           border border-cosmic-red/30 hover:border-cosmic-red/50
+           transition-all duration-200 active:scale-95;
+  }
+
+  /* Input */
+  .input {
+    @apply w-full px-4 py-3 rounded-xl bg-nebula-900/80 border border-nebula-600/40
+           text-nebula-50 placeholder-nebula-400
+           focus:outline-none focus:border-nebula-400 focus:ring-2 focus:ring-nebula-400/20
+           transition-all duration-200 font-body text-sm;
+  }
+
+  /* Card */
+  .card {
+    @apply rounded-2xl p-6 shadow-card;
+    background: linear-gradient(135deg, rgba(28,21,69,0.7) 0%, rgba(18,13,46,0.9) 100%);
+    border: 1px solid rgba(124, 99, 232, 0.15);
+  }
+
+  /* Badge */
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold;
+  }
+
+  /* Nebula glow text */
+  .glow-text {
+    text-shadow: 0 0 20px rgba(124, 99, 232, 0.8), 0 0 40px rgba(61, 45, 138, 0.5);
+  }
+
+  /* Chess piece drag ghost */
+  .piece-dragging {
+    opacity: 0.4;
+    transform: scale(0.9);
+  }
+
+  /* Move highlight */
+  .sq-last-move {
+    background: rgba(240, 180, 41, 0.35) !important;
+  }
+
+  .sq-legal-move::after {
+    content: '';
+    position: absolute;
+    inset: 30%;
+    border-radius: 50%;
+    background: rgba(61, 45, 138, 0.7);
+    pointer-events: none;
+  }
+
+  .sq-legal-capture::after {
+    content: '';
+    position: absolute;
+    inset: 4px;
+    border-radius: 50%;
+    border: 4px solid rgba(61, 45, 138, 0.7);
+    pointer-events: none;
+  }
+
+  .sq-check {
+    background: radial-gradient(circle at center, rgba(248,113,113,0.8) 0%, rgba(248,113,113,0.2) 70%) !important;
+    animation: checkPulse 0.6s ease-in-out;
+  }
+
+  /* Analysis eval bar */
+  .eval-bar-fill {
+    transition: height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Mobile touch drag */
+  @media (pointer: coarse) {
+    .chess-square { touch-action: none; }
+  }
+
+  /* Shimmer loading */
+  .shimmer-bg {
+    background: linear-gradient(90deg,
+      rgba(124,99,232,0.1) 25%,
+      rgba(124,99,232,0.2) 50%,
+      rgba(124,99,232,0.1) 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    background: linear-gradient(135deg, #a691f5 0%, #22d3ee 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .text-gradient-gold {
+    background: linear-gradient(135deg, #f0b429 0%, #fbbf24 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}

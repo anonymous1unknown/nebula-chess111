@@ -1,0 +1,31 @@
+global:
+  scrape_interval:     15s
+  evaluation_interval: 15s
+  external_labels:
+    monitor: 'nebula-chess'
+
+scrape_configs:
+  # ── FastAPI backend — exposes /metrics via prometheus-client ─────────────────
+  - job_name: 'nebula_backend'
+    static_configs:
+      - targets: ['backend:8000']
+    metrics_path: '/metrics'
+
+  # ── Prometheus self-monitoring ────────────────────────────────────────────────
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # ── REMOVED: redis job ────────────────────────────────────────────────────────
+  # Redis speaks the RESP binary protocol, NOT HTTP.
+  # Prometheus sends an HTTP GET, which Redis sees as an unknown command and logs:
+  # "Possible SECURITY ATTACK detected … connection aborted."
+  # To scrape Redis metrics properly, deploy oliver006/redis_exporter as a
+  # sidecar and point a new job at redis_exporter:9121 instead.
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets: []
+
+rule_files: []
