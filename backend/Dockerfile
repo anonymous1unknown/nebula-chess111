@@ -1,6 +1,5 @@
 FROM python:3.12-slim
 
-# Install system deps including Stockfish
 RUN apt-get update && apt-get install -y \
     stockfish \
     gcc \
@@ -14,11 +13,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-# Create non-root user
 RUN useradd -m nebula && chown -R nebula:nebula /app
 USER nebula
 
 EXPOSE 8000
 
-CMD alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers 4 --loop uvloop
+ENV DATABASE_URL="postgresql+asyncpg://nebula_chess_user:DLLM7pkCPXLfBIk34Lj98dVtYiyJqrAk@dpg-d8u0qs7lk1mc73c6b18g-a.frankfurt-postgres.render.com/nebula_chess"
 
+CMD alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers 4 --loop uvloop
