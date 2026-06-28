@@ -8,8 +8,8 @@ services:
     releaseCommand: alembic upgrade head
     envVars:
       - key: DATABASE_URL
-        value: postgresql+asyncpg://שם_משתמש:סיסמה@השרת_שלך/שם_הדאטהבייס
+        value: postgresql+asyncpg://nebula_chess_user:DLLM7pkCPXLfBIk34Lj98dVtYiyJqrAk@dpg-d8u0qs7lk1mc73c6b18g-a/nebula_chess
       - key: REDIS_URL
-        value: redis://הקישור_שלך_מ_upstash
+        value: redis://localhost:6379
       - key: SECRET_KEY
-        value: generate_some_random_secret_here
+        value: c3VwZXItc2VjcmV0LWtleS1mb3ItbmVidWxhLWNoZXNzLTIwMjY=
