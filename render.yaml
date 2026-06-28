@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: nebula-chess-backend
+    env: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    releaseCommand: alembic upgrade head
+    envVars:
+      - key: DATABASE_URL
+        value: postgresql+asyncpg://שם_משתמש:סיסמה@השרת_שלך/שם_הדאטהבייס
+      - key: REDIS_URL
+        value: redis://הקישור_שלך_מ_upstash
+      - key: SECRET_KEY
+        value: generate_some_random_secret_here

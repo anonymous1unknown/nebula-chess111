@@ -59,3 +59,5 @@ htmlcov/
 # Alembic
 alembic/versions/*.py
 !alembic/versions/001_initial.py
+.vercel
+.env*
